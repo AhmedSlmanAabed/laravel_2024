@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,18 +27,12 @@ Route::post('/about', function () {
     return view('about' , compact('name'));
 });
 
-Route::get('/tasklist', function () {
-    $tasks = DB::table('tasks')->get();
-    return view('tasklist' , compact('tasks'));
-});
+Route::get('/tasklist' , [TaskController::class , 'index']);
 
-Route::post('create', function(){
-    $task_name = $_POST['name'];
-    DB::table('tasks')->insert(['name' => $task_name]);
-    return redirect()->back();
-});
+Route::post('create', [TaskController::class , 'create']);
 
-Route::post('delete/{id}' , function($id){
-DB::table('tasks')->where('id' , $id)->delete();
-return redirect()->back();
-});
+Route::post('delete/{id}' , [TaskController::class , 'destroy']);
+
+Route::post('edit/{id}' , [TaskController::class , 'edit'] );
+
+Route::post('update' , [TaskController::class , 'update']);
