@@ -37,8 +37,9 @@
                 </div>
                 <div class="card-body">
                     <!-- New Task Form -->
-                    <form action="#" method="POST">
+                    <form action="create" method="POST">
                         <!-- Task Name -->
+                        @csrf
                         <div class="mb-3">
                             <label for="task-name" class="form-label">Task</label>
                             <input type="text" name="name" id="task-name" class="form-control" value="">
@@ -68,36 +69,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Task 1</td>
+                            @foreach ($tasks as $task)
+                             <tr>
+                                <td>{{$task->name}}</td>
                                 <td>
-                                    <form action="#" method="POST" class="d-inline">
+                                    <form action="/delete/{{$task->id}}" method="POST" class="d-inline">
+                                        @csrf
                                         <button type="submit" class="btn btn-danger">
                                             <i class="fa fa-trash me-2"></i>Delete
                                         </button>
                                     </form>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>Task 2</td>
-                                <td>
-                                    <form action="#" method="POST" class="d-inline">
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash me-2"></i>Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Task 3</td>
-                                <td>
-                                    <form action="#" method="POST" class="d-inline">
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fa fa-trash me-2"></i>Delete
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                            </tr>   
+                            @endforeach
+                            
+                           
                         </tbody>
                     </table>
                 </div>

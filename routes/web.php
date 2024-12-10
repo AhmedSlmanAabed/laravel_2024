@@ -16,9 +16,6 @@ Route::get('/about', function () {
   // return view('about' , ['name' => $name]);
    return view('about' , compact('name', 'departments'));
 }); 
-Route::get('/tasklist', function () {
-    return view('tasklist');
-});
 Route::post('/about', function () {
     $name = $_POST['name'];
     $departments = [
@@ -27,4 +24,20 @@ Route::post('/about', function () {
         '03' => 'defance'
         ];
     return view('about' , compact('name'));
+});
+
+Route::get('/tasklist', function () {
+    $tasks = DB::table('tasks')->get();
+    return view('tasklist' , compact('tasks'));
+});
+
+Route::post('create', function(){
+    $task_name = $_POST['name'];
+    DB::table('tasks')->insert(['name' => $task_name]);
+    return redirect()->back();
+});
+
+Route::post('delete/{id}' , function($id){
+DB::table('tasks')->where('id' , $id)->delete();
+return redirect()->back();
 });
